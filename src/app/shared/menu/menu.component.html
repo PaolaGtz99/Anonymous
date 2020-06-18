@@ -1,0 +1,106 @@
+
+<div style="height: 80vh;">
+    <mat-toolbar>
+  
+      <div fxLayoutAlign="end" class="login">
+        <button fxLayoutAlign="end"  mat-flat-button color="warn" [matMenuTriggerFor]="beforeMenu"><i class="fas fa-user"></i> <b>LOGIN</b>  </button>
+          
+      </div> 
+  
+      <div fxLayout="row" fxLayoutAlign="space-evenly center" fxShow="true" fxHide.gt-xs>
+      <img src="../assets/img/logo.png"  width="100px" alt="">
+      </div>
+  
+      <button mat-raised-button color="warn" (click)="sidenav.toggle()" fxShow="true" fxHide.gt-xs>
+        <mat-icon>menu</mat-icon>
+      </button>
+      
+      <mat-toolbar-row  fxShow="true" fxHide.lt-sm >
+        <!-- <img src="../assets/img/logo.png" width="60px" alt="" class="logo"> -->
+        <button class="btnMenu" mat-raised-button color="warn" [routerLink]="['/home']"><i class="fas fa-home fa-2x"></i><br> <b>Home</b></button>
+        <button class="btnMenu" mat-raised-button color="warn" [matMenuTriggerFor]="belowMenu" ><i class="fas fa-university fa-2x"></i><br> <b>Acerca de</b></button>
+        <button class="btnMenu" mat-raised-button color="warn" [routerLink]="['/contacto']"><i class="fas fa-phone fa-2x"></i><br> <b>Contacto</b>  </button>
+      </mat-toolbar-row>
+  
+  </mat-toolbar>
+
+  <!-- ----- Sublogin ------ -->
+  <mat-menu #beforeMenu="matMenu" xPosition="before">
+    <button mat-menu-item  data-toggle="modal" data-target="#exampleModal" (click)="btn='LOGIN'" >Login</button>
+    <button mat-menu-item data-toggle="modal" data-target="#exampleModal" (click)="btn='REGISTRARSE'">Crear cuenta</button>
+  </mat-menu>
+  <!-- ----- SubAcerca de ------ -->
+  <mat-menu #belowMenu="matMenu" yPosition="below">
+    <button mat-menu-item [routerLink]="['/about']">¿Quienes somos?</button>
+    <button mat-menu-item [routerLink]="['/preguntas']">Preguntas Frecuentes</button>
+  </mat-menu>
+
+  <!-- Login y Crear cuenta -->
+<div  class="modal " id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog logIn modalLogIn" role="document">
+    <div class="modal-content center-block">
+      <div class="modal-header logIn">
+        <h1 class="modal-title" id="exampleModalLabel"><b>{{btn}} </b> </h1>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <form>
+          <div class="example-container">
+            <mat-form-field appearance="fill">
+              <mat-label>Usuario</mat-label>
+              <input matInput type="text" [(ngModel)]="value">
+              <button mat-button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
+              <mat-icon>close</mat-icon>
+              </button>
+            </mat-form-field>
+              <mat-form-field appearance="fill">
+              <mat-label>Contraseña</mat-label>
+              <input matInput [type]="hide ? 'password' : 'text'">
+              <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+              <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+              </button>
+            </mat-form-field>
+            <br>
+            <div *ngIf="btn == 'LOGIN' else reg">
+              <button mat-raised-button color="warn" (click)="iniciarSesion()">Login</button>
+            </div>
+            <ng-template #reg>
+              <button mat-raised-button color="warn" (click)="registro()" >Registrarse</button>
+            </ng-template>
+            
+            
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+    
+  <!-- ----- Responsive ------ -->
+  
+  <mat-sidenav-container fxFlexFill>
+    <mat-sidenav #sidenav>
+      <mat-nav-list>
+        
+        <a  [routerLink]="['/home']" mat-list-item >
+          <i class="fas fa-home"></i> &nbsp; &nbsp; <b> H o m e</b></a>
+          <a [routerLink]="['/about']" mat-list-item >
+            <i class="fas fa-university"></i>&nbsp; &nbsp; <b> ¿ Q u i e n e s S o m o s? </b></a>
+            <a [routerLink]="['/preguntas']" mat-list-item >
+              <i class="fas fa-question"></i>&nbsp; &nbsp; <b> P r e g u n t a s F r e c u e n t e s </b></a>
+          <a [routerLink]="['/contacto']" mat-list-item>
+          <i class="fas fa-phone"></i>&nbsp; &nbsp; <b> C o n t a c t o </b></a>
+      </mat-nav-list>
+    </mat-sidenav>
+    
+    <mat-sidenav-content fxFlexFill>
+        <router-outlet></router-outlet>
+        <app-footer></app-footer>
+    </mat-sidenav-content> 
+  </mat-sidenav-container>
+
+  </div>
+  
