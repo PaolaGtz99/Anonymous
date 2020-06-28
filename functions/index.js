@@ -10,3 +10,5 @@ app.get('/peli', (request, response) => {
 // // https://firebase.google.com/docs/functions/write-firebase-functions
 //
 exports.app = functions.https.onRequest(app);
+
+//API NodeJS creada por nosotros
