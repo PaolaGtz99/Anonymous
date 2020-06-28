@@ -14,6 +14,13 @@ import { ContactoComponent } from './contacto/contacto.component';
 import { PreguntasComponent } from './preguntas/preguntas.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { EstudianteComponent } from './estudiante/estudiante.component';
+import { MaestroComponent } from './maestro/maestro.component';
+import { GrupoComponent } from './grupo/grupo.component';
+import { environment } from 'src/environments/environment';
+import { AngularFireModule } from '@angular/fire';
+import { AngularFireAuthModule } from '@angular/fire/auth';
+import { AdministradorComponent } from './administrador/administrador.component';
+import { ServiceWorkerModule } from '@angular/service-worker';
 
 
 @NgModule({
@@ -25,7 +32,10 @@ import { EstudianteComponent } from './estudiante/estudiante.component';
     AboutComponent,
     ContactoComponent,
     PreguntasComponent,
-    EstudianteComponent
+    EstudianteComponent,
+    MaestroComponent,
+    GrupoComponent,
+    AdministradorComponent
   ],
   imports: [
     BrowserModule,
@@ -34,8 +44,10 @@ import { EstudianteComponent } from './estudiante/estudiante.component';
     MaterialModule,
     FlexLayoutModule,
     FormsModule,
-    ReactiveFormsModule
-    
+    AngularFireModule.initializeApp(environment.firebaseConfig),
+    AngularFireAuthModule,
+    ReactiveFormsModule,
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
   providers: [],
   bootstrap: [AppComponent]

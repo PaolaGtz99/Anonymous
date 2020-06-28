@@ -10,8 +10,8 @@
                     <img width="150px" class="img-thumbnail" src="../../assets/img/usuario.png" alt="Thumbnail image">
                 </div>
                 <div class="col">
-                    <p>NOMBRE: </p>
-                    <div class="centrar shadow p-3 bg-light rounded prom"><b>Promedio</b> <br> 10 </div>
+                    <p>Estudiante: <span id="nomUser"><h1>{{user?.nombre}}</h1></span></p>
+                    <div class="centrar shadow p-3 bg-light rounded prom"><b>Promedio</b><br><span id="prom">{{prom}}</span></div>
                 </div>
             </div>
             </div>
@@ -24,7 +24,7 @@
 <div class="container margen">
     <div class="row">
       <div class="col"></div>
-      <div class="col-10">
+      <div class="col-10" >
         <table class="table table-hover">
             <thead class="thead-dark">
               <tr>
@@ -33,21 +33,23 @@
                 <th>Calificacion</th>
               </tr>
             </thead>
-            <tbody>
-              <tr>
-                <th scope="row">1</th>
-                <td>Mark</td>
-                <td>Otto</td>
-              </tr>
-              <tr>
-                <th scope="row">2</th>
-                <td>Jacob</td>
-                <td>Thornton</td>
+            <tbody id="tabla" class="centrar">
+              <tr *ngFor="let materia of materiasusuario">
+                <td>
+                  {{materia.idMateria}}
+                </td>
+                <td>
+                  {{materias[materia.idMateria]}}
+                </td>
+                <td>
+                  {{materia.nota}}
+                </td>
               </tr>
             </tbody>
           </table>
       </div>
-      <div class="col"></div>
+      <div class="col" >
+      </div>
     </div>
  </div>   
 

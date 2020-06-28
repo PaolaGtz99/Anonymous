@@ -1,22 +1,26 @@
 
 <div style="height: 80vh;">
     <mat-toolbar>
-  
-      <div fxLayoutAlign="end" class="login">
-        <button fxLayoutAlign="end"  mat-flat-button color="warn" [matMenuTriggerFor]="beforeMenu"><i class="fas fa-user"></i> <b>LOGIN</b>  </button>
-          
-      </div> 
-  
-      <div fxLayout="row" fxLayoutAlign="space-evenly center" fxShow="true" fxHide.gt-xs>
-      <img src="../assets/img/logo.png"  width="100px" alt="">
-      </div>
-  
-      <button mat-raised-button color="warn" (click)="sidenav.toggle()" fxShow="true" fxHide.gt-xs>
-        <mat-icon>menu</mat-icon>
-      </button>
+
+      
+        <div fxLayoutAlign="end" class="login">
+          <span style style="color: white; margin-right: 10px;">{{(currentUser|async)?.nombre}} &nbsp; &nbsp;</span> 
+          <button fxLayoutAlign="end"  mat-flat-button color="warn" [matMenuTriggerFor]="beforeMenu"><i class="fas fa-user"></i> <b>LOGIN</b>  </button>
+            
+        </div> 
+    
+        <div fxLayout="row" fxLayoutAlign="space-evenly center" fxShow="true" fxHide.gt-xs>
+        <img src="../assets/img/logo.png"  width="100px" alt="">
+        </div>
+    
+        <button mat-raised-button color="warn" (click)="sidenav.toggle()" fxShow="true" fxHide.gt-xs>
+          <mat-icon>menu</mat-icon>
+        </button>
+    
+      
       
       <mat-toolbar-row  fxShow="true" fxHide.lt-sm >
-        <!-- <img src="../assets/img/logo.png" width="60px" alt="" class="logo"> -->
+         <img src="../assets/img/logo.png" width="60px" alt="" class="logo">
         <button class="btnMenu" mat-raised-button color="warn" [routerLink]="['/home']"><i class="fas fa-home fa-2x"></i><br> <b>Home</b></button>
         <button class="btnMenu" mat-raised-button color="warn" [matMenuTriggerFor]="belowMenu" ><i class="fas fa-university fa-2x"></i><br> <b>Acerca de</b></button>
         <button class="btnMenu" mat-raised-button color="warn" [routerLink]="['/contacto']"><i class="fas fa-phone fa-2x"></i><br> <b>Contacto</b>  </button>
@@ -26,8 +30,10 @@
 
   <!-- ----- Sublogin ------ -->
   <mat-menu #beforeMenu="matMenu" xPosition="before">
-    <button mat-menu-item  data-toggle="modal" data-target="#exampleModal" (click)="btn='LOGIN'" >Login</button>
-    <button mat-menu-item data-toggle="modal" data-target="#exampleModal" (click)="btn='REGISTRARSE'">Crear cuenta</button>
+    <button mat-menu-item *ngIf="(currentUser|async).uid" (click)="Perfil()">Mi Perfil</button>
+    <button mat-menu-item *ngIf="(currentUser|async).uid" (click)="fnLogout()">Logout</button>
+    <button mat-menu-item *ngIf="!(currentUser|async).uid"  data-toggle="modal" data-target="#exampleModal" (click)="btn='LOGIN'" >Login</button>
+    <button mat-menu-item *ngIf="!(currentUser|async).uid" data-toggle="modal" data-target="#exampleModal" (click)="btn='REGISTRARSE'">Crear cuenta</button>
   </mat-menu>
   <!-- ----- SubAcerca de ------ -->
   <mat-menu #belowMenu="matMenu" yPosition="below">
@@ -36,7 +42,8 @@
   </mat-menu>
 
   <!-- Login y Crear cuenta -->
-<div  class="modal " id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+  <div  class="modal" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog logIn modalLogIn" role="document">
     <div class="modal-content center-block">
       <div class="modal-header logIn">
@@ -50,24 +57,46 @@
         <form>
           <div class="example-container">
             <mat-form-field appearance="fill">
-              <mat-label>Usuario</mat-label>
-              <input matInput type="text" [(ngModel)]="value">
-              <button mat-button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
-              <mat-icon>close</mat-icon>
-              </button>
+              <mat-label>Email</mat-label>
+              <input matInput  [formControl]="emailFormControl" [errorStateMatcher]="matcher"
+                     placeholder="Ex. pat@example.com" id="emailLogin">
+              <mat-error *ngIf="emailFormControl.hasError('email') && !emailFormControl.hasError('required')">
+                Please enter a valid email address
+              </mat-error>
             </mat-form-field>
+
               <mat-form-field appearance="fill">
               <mat-label>Contraseña</mat-label>
-              <input matInput [type]="hide ? 'password' : 'text'">
+              <input matInput id="passLogin" [type]="hide ? 'password' : 'text'">
               <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
               <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
               </button>
+              <br><small class="errormsj"> {{contraMin}} </small>
             </mat-form-field>
             <br>
             <div *ngIf="btn == 'LOGIN' else reg">
               <button mat-raised-button color="warn" (click)="iniciarSesion()">Login</button>
             </div>
             <ng-template #reg>
+                
+              <mat-form-field appearance="fill">
+                <mat-label>Confirmar Contraseña</mat-label>
+                <input matInput [type]="hide2 ? 'password' : 'text'" id="passLoginConfirm">
+                <button mat-icon-button matSuffix (click)="hide2 = !hide2" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide2">
+                <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                </button>
+                <br><small class="errormsj"> {{contraDif}} </small>
+              </mat-form-field>
+              
+              <mat-form-field appearance="fill">
+                <mat-label>Nombre</mat-label>
+                <input matInput id="nameLogin" type="text" [(ngModel)]="nombre">
+              </mat-form-field>
+
+              
+
+              <small class="errormsj"><br> {{campos}}<br> </small>
+              <small class="errormsj"> {{errMail}} <br> </small>
               <button mat-raised-button color="warn" (click)="registro()" >Registrarse</button>
             </ng-template>
             
@@ -78,6 +107,8 @@
     </div>
   </div>
 </div>
+
+-->
     
   <!-- ----- Responsive ------ -->
   

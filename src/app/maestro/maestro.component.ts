@@ -1,4 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+import { FirestoreService } from '../services/firestore.service';
+import { UsuarioModel } from '../modelos/usuario.model';
+import { UsuarioMaterialModel } from '../modelos/usuario-materia.model';
+import { SessionService } from '../services/session.service';
+import { MateriaModel } from '../modelos/materia.model';
+import { isNumber } from 'util';
+import { FeedbackService } from '../services/feedback.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-maestro',
@@ -7,9 +15,180 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MaestroComponent implements OnInit {
 
-  constructor() { }
+  materias: any = {};
+  usuario:Observable<UsuarioModel>;
+  numMaterias = 0;
+  materiasusuario: UsuarioMaterialModel[];
 
-  ngOnInit(): void {
+  user:UsuarioModel;
+  agregarAl:UsuarioModel[] = [];
+
+  alumnos:any = {};
+
+  alumnoMateria:UsuarioMaterialModel[] = [];
+
+  docs:any[] = [];
+  docsAlumno:any[] = [];
+  nomMat = '';
+  showTable:boolean = true;
+
+  agregarAlumnos:boolean = false
+
+  constructor(
+    private storageService:FirestoreService,
+    private sessionService:SessionService,
+    private feedbackService:FeedbackService
+  ) {
+    this.usuario = this.sessionService._user;
+   }
+
+  modificaNota(nota:number,index:number){
+    if(!nota){
+      this.feedbackService.fnWarning('Cuidado','Debes ingresar una cantidad numerica')
+      return;
+    }
+    if(nota < 0 || nota > 10){
+      this.feedbackService.fnWarning('Cuidado','Debes ingresar una cantidad entre 0 y 10')
+      return;
+    }
+
+    this.storageService.fnUpdateDoc('usuario-materia',this.docs[index],{nota:nota} as UsuarioMaterialModel)
+    .then(data=>{
+      if(data){
+        this.feedbackService.fnSuccess('Exito','Calificacion Editada');
+      }else{
+        this.feedbackService.fnError('Error','hubo un problema al editar la nota');
+      }
+    });
   }
 
+  idMateria:string;
+
+  mostrarAl(id:string, nombre:string,ignore:boolean = false){
+    this.alumnos = {};
+    console.log('load in')
+    if(ignore == false){
+      this.agregarAlumnos = false;
+    }
+    
+    this.nomMat = nombre;
+    this.idMateria = id;
+    this.storageService.fnGetElementById('usuario-materia', 'idMateria', id)
+    .then((data: any) => {
+      this.alumnoMateria = [];
+      this.docs = [];
+      data.forEach((doc) => {
+        let aux:UsuarioMaterialModel = doc.data();
+        this.alumnoMateria.push(aux);
+        this.docs.push(doc)
+        this.fnGetAlumno(aux.idUsuario);
+      });
+      console.log(this.alumnoMateria)
+      this.showTable =false
+    }); 
+  }
+
+  fnGetAlumno(uid){
+    if(this.alumnos[uid]){
+      return;
+    }
+    this.storageService.fnGetElementById('usuario', 'uid', uid)
+    .then((data: any) => {
+      data.forEach((doc) => {
+        this.alumnos[uid] = doc.data();
+      });
+      console.log(this.alumnos)
+    }); 
+  }
+
+  ngOnInit(): void {
+    this.fnGetMaterias();
+    this.cargaAdd();
+  }
+  
+
+  fnGetMaterias(count: number = 0) {
+    this.user = this.sessionService.fnGetLoged();
+    if (!this.user.uid && count < 1000){
+      setTimeout(() => {
+        this.fnGetMaterias(count + 1);
+      }, 10);
+      return;
+    }else if (!this.user.uid){
+      // redirigir
+      return;
+    }
+    this.materiasusuario = [];
+    this.materias = {};
+    this.storageService.fnGetElementById('materias', 'idMaestro', this.user.uid)
+    .then((data: any) => {
+      data.forEach((doc) => {
+        this.numMaterias++;
+        const aux: UsuarioMaterialModel =  doc.data();
+        this.materiasusuario.push(aux);
+      });
+    });
+  }
+
+  cargaAdd(){
+    this.agregarAl = [];
+    this.storageService.fnGetElementById('usuario','tipoUsuario','estudiante').then(
+      (data: any) => {
+        this.docsAlumno = []
+        data.forEach(element => {
+          this.docsAlumno.push(element);
+          this.agregarAl.push(element.data());
+
+        });
+      }
+    );
+    console.log('recuperados',this.agregarAl);
+  }
+
+  fnReloadEstudiantes(){
+    this.agregarAlumnos=false
+  }
+
+  fnEliminarAlumno(uid){
+    let doc = null;
+    this.alumnoMateria.forEach((data,index)=>{
+      if(data.idUsuario == uid){
+        doc = this.docs[index];
+      }
+    })
+    if(doc){
+      this.storageService.fnDeleteDoc('usuario-materia',doc)
+      .then(res=>{
+        if(res){
+          delete this.alumnos[uid]
+          this.mostrarAl(this.idMateria,this.nomMat,true);
+          this.feedbackService.fnSuccess('Exito','Estudiante eliminado');
+        }else{
+          this.feedbackService.fnError('Error','No se pudo eliminar el alumno');
+        }
+      })
+    }else{
+      this.feedbackService.fnError('Error','No se pudo eliminar el alumno');
+    }
+  }
+
+  fnAgregarAMateria(uid:string){
+    let usuarioMateria:UsuarioMaterialModel = {
+      idMateria: this.idMateria,
+      idUsuario: uid,
+      nota: 0
+    }
+    this.storageService.fnAddCollection('usuario-materia',usuarioMateria)
+            .then(success=>{
+              if(!success){
+                //En caso de error al guar en db 
+                this.feedbackService.fnError('Error','No se pudo añadir el estudiante');
+              } else {
+                //en caso de exito (proceso terminado correctamente)
+                this.feedbackService.fnSuccess('Exito','Estudiante añadido')
+                this.alumnos[uid] = true;
+                this.mostrarAl(this.idMateria,this.nomMat,true);
+              }
+            })
+  }
 }
