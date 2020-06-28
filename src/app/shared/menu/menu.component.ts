@@ -10,6 +10,7 @@ import { ErrorStateMatcher } from '@angular/material/core';
 import { FirestoreService } from 'src/app/services/firestore.service';
 import { FeedbackService } from 'src/app/services/feedback.service';
 import { Observable } from 'rxjs';
+/*import { SpeechService } from 'src/app/services/speech.service'*/
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -182,5 +183,44 @@ export class MenuComponent implements OnInit {
     // te lleve a tu cuenta
   }
 
-  ngOnInit(): void { }
+  index: number;
+  v: number = this.getVolume();
+  speechData: any;
+  
+  ngOnInit(){
+    console.log('onInit');
+  }
+
+
+  start(html){
+    this.spk.start(html); 
+  }
+  pause(){
+    this.spk.pause();
+  }
+  resume(){
+    this.spk.resume();
+  }
+
+  getSpeechData(){    
+    this.speechData = this.spk.speechData;
+    //this.index = this.speechData.findIndex();
+    console.log(this.speechData);
+  }
+
+  setVolume(v){
+    this.spk.setVolume(v);
+  }
+
+  getVolume(){
+    return this.spk.getVolume();
+  }
+
+  changeVoice(){
+    this,this.speechData=this.spk.getSpeechData();
+  }
+
+  setLanguage(lang){
+    this.spk.setLanguage(lang);
+  }
 }
