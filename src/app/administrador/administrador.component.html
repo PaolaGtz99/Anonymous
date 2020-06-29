@@ -66,7 +66,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let obj of maestroTable">
+                        <tr *ngFor="let obj of maestroTable,let contador2=index">
                             <th scope="row">{{obj.uid}}</th>
                             <td>{{obj.nombre}}</td>
                             <td></td>
@@ -149,7 +149,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let obj of alumnoTable">
+                        <tr *ngFor="let obj of alumnoTable, let contador=index">
                          <th scope="row">{{obj.uid}}</th>
                          <td>{{obj.nombre}}</td>
                          <td></td>
@@ -160,7 +160,14 @@
         </div>
                </mat-tab>
                <!-- -------- G R A F I C A S ------------- -->
-               <mat-tab label="GRAFICAS">Content 3</mat-tab>
+               <mat-tab label="GRAFICAS"><div style="display: block">
+                <canvas baseChart
+                        [data]="doughnutChartData"
+                        [labels]="doughnutChartLabels"
+                        [chartType]="doughnutChartType"></canvas>
+              </div></mat-tab>
+               
+              
             </mat-tab-group>
         </div>
     

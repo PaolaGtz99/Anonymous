@@ -10,7 +10,7 @@ import { ErrorStateMatcher } from '@angular/material/core';
 import { FirestoreService } from 'src/app/services/firestore.service';
 import { FeedbackService } from 'src/app/services/feedback.service';
 import { Observable } from 'rxjs';
-import { SpeechService } from 'src/app/services/speech.service'
+import { SpeechService } from 'src/app/services/speech.service';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -35,10 +35,10 @@ export class MenuComponent implements OnInit {
   campos = '';
   contraMin = '';
   errMail = '';
-  tipo='hola';
+  tipo = 'hola';
   muroTipo:String;
 
-  currentUser:Observable<UsuarioModel>
+  currentUser: Observable<UsuarioModel>;
 
   emailFormControl = new FormControl('', [
     Validators.required,
@@ -60,7 +60,8 @@ export class MenuComponent implements OnInit {
     private feedback:FeedbackService,
     private authSvc: AuthService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private spk: SpeechService
   ) {
     this.currentUser = this.sessionService._user;
     console.log(this.currentUser)
@@ -151,27 +152,26 @@ export class MenuComponent implements OnInit {
       try {
         this.authSvc.fnRegister(email, pass)
           .then((uid) => {
-            //Si no obtenemos un uid (error en el alta)
+            // Si no obtenemos un uid (error en el alta)
             if (!uid) {
-              this.feedback.fnError('Ups','Error en el email');
+              this.feedback.fnError('Ups', 'Error en el email');
               return;
             }
-            
-            //Guardamos en db refrencia del usuario
+            // Guardamos en db refrencia del usuario
             let obj = {
               email: email,
                 nombre: name,
                 uid: uid,
                 tipoUsuario: 'estudiante'
             }
-            this.storeService.fnAddCollection('usuario',obj)
+            this.storeService.fnAddCollection('usuario', obj)
             .then(success=>{
-              if(!success){
-                //En caso de error al guar en db 
-                this.feedback.fnError('Ups','Estamos teniendo algunos problemas intenta mas tarde');
+              if (!success){
+                // En caso de error al guar en db
+                this.feedback.fnError('Ups', 'Estamos teniendo algunos problemas intenta mas tarde');
               } else {
-                //en caso de exito (proceso terminado correctamente)
-                this.feedback.fnSuccess('Bienvenido','Tu registro fue exitoso')
+                // en caso de exito (proceso terminado correctamente)
+                this.feedback.fnSuccess('Bienvenido', 'Tu registro fue exitoso')
               }
             })
                       });
@@ -186,14 +186,14 @@ export class MenuComponent implements OnInit {
   index: number;
   v: number = this.getVolume();
   speechData: any;
-  
+
   ngOnInit(){
     console.log('onInit');
   }
 
 
   start(html){
-    this.spk.start(html); 
+    this.spk.start(html);
   }
   pause(){
     this.spk.pause();
@@ -202,9 +202,9 @@ export class MenuComponent implements OnInit {
     this.spk.resume();
   }
 
-  getSpeechData(){    
+  getSpeechData(){
     this.speechData = this.spk.speechData;
-    //this.index = this.speechData.findIndex();
+    // this.index = this.speechData.findIndex();
     console.log(this.speechData);
   }
 

@@ -1,5 +1,5 @@
 import { Injectable, OnInit } from '@angular/core';
-import { Observable } from  'rxjs'
+import { Observable } from 'rxjs';
 import  Speech  from 'speak-tts';
 
 @Injectable({

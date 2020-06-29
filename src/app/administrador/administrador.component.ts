@@ -13,6 +13,8 @@ import { MateriaModel } from '../modelos/materia.model';
   styleUrls: ['./administrador.component.css']
 })
 export class AdministradorComponent implements OnInit {
+  
+  
 
 
   materias: any = {};
@@ -85,6 +87,7 @@ export class AdministradorComponent implements OnInit {
       
       this.prom = parseFloat((this.prom / (this.numMaterias)).toFixed(2));
       console.log(this.prom,this.materiasusuario)
+      console.log(this.prom);
     });
   }
 
@@ -96,6 +99,7 @@ export class AdministradorComponent implements OnInit {
         const materia: MateriaModel = doc.data();
         this.materias[materia.uid] = materia.nombre;
         console.log('materias del alumno',this.materias);
+        console.log(this.maestroTable)
       });
     });
   }
@@ -107,25 +111,72 @@ export class AdministradorComponent implements OnInit {
  
   ngOnInit(): void {
     this.fnGetUsuarioByType('maestro').then((list:any)=>{this.maestroTable = list});
+    
     this.fnGetUsuarioByType('estudiante').then((list:any)=>{this.alumnoTable = list});
+    this.alumnoTable2.fnGetElements('maestro');
+    
+    
+    
+    // this.fnGetUsuarioByType('usuario-materia').then((list:any)=>{this.alumnoTable = list})
   }
-
+  
   alumnoTable:UsuarioModel[] = [];
   maestroTable:UsuarioModel[] = [];
+  alumnoTable2:UsuarioModel []=[];
+  maestroTable2:UsuarioModel[]=[];
 
   fnGetUsuarioByType(type:string){
     return new Promise(resolve=>{
       let list = [];
+      let cont =0;
       this.storageService.fnGetElementById('usuario','tipoUsuario',type)
       .then((data:any)=>{
         data.forEach((doc) => {
           list.push(doc.data());
+          cont++;
         });
+        
         resolve(list);
       });
-      
+     
+    });
+   
+  }
+  fnContarUsuarioByType(type:string){
+    this.contador=0;
+    this.storageService.fnGetElementById('usuario', 'tipoUsuario', type)
+    .then((data: any) => {
+      data.forEach((doc) => {
+        this.contador++;
+        data
+        console.log(this.contador);
+        const aux: UsuarioMaterialModel =  doc.data();
+        if (!this.materias[aux.idMateria]) {  }
+      });
     });
     
   }
+
+  fnContarUsuarioByType2(type:string){
+    this.storageService.fnGetElementById('usuario', 'tipoUsuario', type)
+    .then((data: any) => {
+      data.forEach((doc) => {
+        this.contador2++;
+        const aux: UsuarioMaterialModel =  doc.data();
+        if (!this.materias[aux.idMateria]) {  }
+      });
+    });
+  }
+
+
+  
+  contador: number;
+contador2: number;
+public doughnutChartLabels = ['Alumnos', 'Profesores'];
+ public doughnutChartData = [this.contador, this.contador2];
+public  doughnutChartType = 'doughnut';
+
+
+
 
 }

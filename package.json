@@ -1,5 +1,5 @@
 {
-  "name": "proyecto2",
+  "name": "Anonymous",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
@@ -24,8 +24,13 @@
     "@angular/platform-browser-dynamic": "~9.1.7",
     "@angular/router": "~9.1.7",
     "@angular/service-worker": "~9.1.7",
+    "angularx-qrcode": "^2.3.4",
+    "chart.js": "^2.9.3",
     "firebase": "^7.15.5",
+    "ng2-charts": "^2.3.2",
+    "ngx-qrcode2": "^9.0.0",
     "rxjs": "~6.5.4",
+    "speak-tts": "^2.0.8",
     "sweetalert": "^2.1.2",
     "sweetalert2": "^9.15.1",
     "tslib": "^1.13.0",
