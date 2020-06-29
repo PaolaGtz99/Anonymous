@@ -1,5 +1,5 @@
 {
-  "name": "proyecto2",
+  "name": "Anonymous",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
@@ -26,6 +26,7 @@
     "@angular/service-worker": "~9.1.7",
     "firebase": "^7.15.5",
     "rxjs": "~6.5.4",
+    "speak-tts": "^2.0.8",
     "sweetalert": "^2.1.2",
     "sweetalert2": "^9.15.1",
     "tslib": "^1.13.0",
