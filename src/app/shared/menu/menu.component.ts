@@ -60,7 +60,8 @@ export class MenuComponent implements OnInit {
     private feedback:FeedbackService,
     private authSvc: AuthService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private spk: SpeechService
   ) {
     this.currentUser = this.sessionService._user;
     console.log(this.currentUser)
