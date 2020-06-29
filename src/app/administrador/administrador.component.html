@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <div class="container margen">
     <div class="row">
       <div class="col"></div>
@@ -175,4 +176,176 @@
 
     </div>
    
+=======
+<div class="container margen">
+    <div class="row">
+      <div class="col"></div>
+      <div class="col-6">
+        <div class="card shadow">
+            <div class="card-body">
+            <div class="row">
+                <div class="col-4 centrar">
+                    <img width="150px" class="img-thumbnail" src="../../assets/img/usuario.png" alt="Thumbnail image">
+                </div>
+                <div class="col">
+                    
+                    <div class="centrar shadow p-3 bg-light rounded prom"><b>ADMINISTRADOR</b> <br> NOMBRE: {{(user|async).nombre}} </div>
+                </div>
+            </div>
+            </div>
+          </div>
+      </div>
+      <div class="col"></div>
+    </div>
+    <div class="row">
+        <div class="col"></div>
+        <div class="col-8">
+           <mat-tab-group mat-align-tabs="center" class="slider margen" (selectedTabChange)='encuentraAl=false'>
+               <!-- -------- M A E S T R O S ------------- -->
+               <mat-tab label="MAESTROS" >
+                <div class="container">
+                 <div class="row centrar margen">
+                     <div class="col"><h1><b> MAESTROS</b></h1></div>
+                     <div class="col">
+                        <mat-form-field class="example-form-field">
+                            <mat-label>Buscar Maestro</mat-label>
+                            <input matInput type="text" [(ngModel)]="buscarMaestro" (keyup.enter)="buscar('maestro',buscarMaestro)">
+                            <button mat-button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
+                              <mat-icon>close</mat-icon>
+                            </button>
+                        </mat-form-field>
+                     </div>
+                     <div class="col"><button mat-raised-button color="primary" (click)="mostrarNM()" >Nuevo Maestro</button></div>
+                 </div>  
+                 <div class="row bg-white" *ngIf="nuevoM == 'true'" >
+                     
+                        <div class="col pad centrar">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Nombre</mat-label>
+                                <input matInput>
+                              </mat-form-field>
+                        </div>
+                        <div class="col pad centrar">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Materia</mat-label>
+                                <input matInput>
+                              </mat-form-field>
+                        </div>
+                        <div class="col-2 pad centrar"><button type="button" class="btn btn-success">Añadir</button></div>
+            
+                    </div>
+                 <div class="row">
+                       
+                <table class="table table-hover centrar">
+                    <thead class="thead-dark">
+                        <tr>
+                         <th>id</th>
+                         <th>Nombre</th>
+                         <th>Materia</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let obj of maestroTable">
+                            <th scope="row">{{obj.uid}}</th>
+                            <td>{{obj.nombre}}</td>
+                            <td></td>
+                           </tr>
+                    </tbody>
+                </table> 
+            </div>
+        </div>
+            </mat-tab>
+
+               <mat-tab label="ALUMNOS">
+                   <!-- -------- A L U M N O S ------------- -->
+                <div class="container">
+                 <div class="row centrar margen">
+                     <div class="col"><h1><b> ALUMNOS</b></h1>
+                    </div>
+                     <div class="col">
+                        <mat-form-field class="example-form-field">
+                            <mat-label>Buscar Alumno</mat-label>
+                            <input matInput type="text" [(ngModel)]="buscarAlumno" (keyup.enter)="buscar('estudiante',buscarAlumno)">
+                            <small class="errormsj">{{EncontroAl}}</small>
+                            <button mat-button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
+                              <mat-icon>close</mat-icon>
+                            </button>
+                        </mat-form-field>
+                        
+                     </div>
+                     <div class="col"><button mat-raised-button color="primary" (click)="mostrarNM()">Nuevo alumno</button></div>
+                 </div>  
+
+                 <!-- ALUMNO ENCONTRADO-------------- -->
+
+                 <div class="row bg-white centrar" *ngIf="encuentraAl == true" >
+                     <div class="centrar"><h2>NOMBRE: <b> {{aux.nombre}}</b></h2></div>
+                    <table class="table table-hover centrar">
+                        <thead class="thead-dark">
+                          <tr>
+                            <th>Id</th>
+                            <th>Materia</th>
+                            <th>Calif</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor='let materia of materiasusuario' class="
+                            {{
+                                materia.nota <= 5 ? 'table-danger':(materia.nota <= 7 ? 'table-warning':'table-success')
+                            }}">
+                            <th scope="row">{{materia.idMateria}}</th>
+                            <td> {{materias[materia.idMateria]}} </td>
+                            <td>{{materia.nota}}</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                 </div>
+                 
+                 <div class="row bg-white" *ngIf="nuevoM == 'true'" >
+                     
+                    <div class="col pad centrar">
+                        <mat-form-field class="example-full-width">
+                            <mat-label>Nombre</mat-label>
+                            <input matInput>
+                          </mat-form-field>
+                    </div>
+                    <div class="col pad centrar">
+                        <mat-form-field class="example-full-width">
+                            <mat-label>Promedio</mat-label>
+                            <input matInput>
+                          </mat-form-field>
+                    </div>
+                    <div class="col-2 pad centrar"><button type="button" class="btn btn-success">Añadir</button></div>
+        
+                </div>
+                 <div class="row">     
+                <table class="table table-hover centrar">
+                    <thead class="thead-dark">
+                        <tr>
+                         <th>id</th>
+                         <th>Nombre</th>
+                         <th>Promedio</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let obj of alumnoTable">
+                         <th scope="row">{{obj.uid}}</th>
+                         <td>{{obj.nombre}}</td>
+                         <td></td>
+                        </tr>
+                    </tbody>
+                </table> 
+            </div>
+        </div>
+               </mat-tab>
+               <!-- -------- G R A F I C A S ------------- -->
+               <mat-tab label="GRAFICAS">Content 3</mat-tab>
+            </mat-tab-group>
+        </div>
+    
+        <div class="col"></div>
+
+    </div>
+   
+>>>>>>> 9407d51e84d50e2dc3e0055877f5fa69cbcada43
  </div>
