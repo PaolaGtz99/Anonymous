@@ -1,0 +1,104 @@
+{
+  "configVersion": 1,
+  "timestamp": 1593799278613,
+  "index": "/index.html",
+  "assetGroups": [
+    {
+      "name": "app",
+      "installMode": "prefetch",
+      "updateMode": "prefetch",
+      "urls": [
+        "/5-es2015.2f7b80da9833103e3868.js",
+        "/5-es5.2f7b80da9833103e3868.js",
+        "/favicon.ico",
+        "/index.html",
+        "/main-es2015.f4b38f8541f6200e9951.js",
+        "/main-es5.f4b38f8541f6200e9951.js",
+        "/manifest.webmanifest",
+        "/polyfills-es2015.690002c25ea8557bb4b0.js",
+        "/polyfills-es5.9e286f6d9247438cbb02.js",
+        "/runtime-es2015.249d13553f3ad317f3e7.js",
+        "/runtime-es5.249d13553f3ad317f3e7.js",
+        "/styles.25f7203eb69db14a04a4.css"
+      ],
+      "patterns": []
+    },
+    {
+      "name": "assets",
+      "installMode": "lazy",
+      "updateMode": "prefetch",
+      "urls": [
+        "/assets/icons/icon-128x128.png",
+        "/assets/icons/icon-144x144.png",
+        "/assets/icons/icon-152x152.png",
+        "/assets/icons/icon-192x192.png",
+        "/assets/icons/icon-384x384.png",
+        "/assets/icons/icon-512x512.png",
+        "/assets/icons/icon-72x72.png",
+        "/assets/icons/icon-96x96.png",
+        "/assets/img/alumna.jpg",
+        "/assets/img/alumno.jpg",
+        "/assets/img/escuela.jpg",
+        "/assets/img/fondo.png",
+        "/assets/img/fondo2.jpg",
+        "/assets/img/logo.png",
+        "/assets/img/obj.jpg",
+        "/assets/img/usuario.png",
+        "/fondo2.aaa7841cf69a8b1736d3.jpg",
+        "/logo.5c8b0b31b656115061cd.png"
+      ],
+      "patterns": []
+    }
+  ],
+  "dataGroups": [],
+  "hashTable": {
+    "/5-es2015.2f7b80da9833103e3868.js": "4bd95cfdf128c6fadc1814101ef38378d84e1fbf",
+    "/5-es5.2f7b80da9833103e3868.js": "4bd95cfdf128c6fadc1814101ef38378d84e1fbf",
+    "/assets/icons/icon-128x128.png": "dae3b6ed49bdaf4327b92531d4b5b4a5d30c7532",
+    "/assets/icons/icon-144x144.png": "b0bd89982e08f9bd2b642928f5391915b74799a7",
+    "/assets/icons/icon-152x152.png": "7479a9477815dfd9668d60f8b3b2fba709b91310",
+    "/assets/icons/icon-192x192.png": "1abd80d431a237a853ce38147d8c63752f10933b",
+    "/assets/icons/icon-384x384.png": "329749cd6393768d3131ed6304c136b1ca05f2fd",
+    "/assets/icons/icon-512x512.png": "559d9c4318b45a1f2b10596bbb4c960fe521dbcc",
+    "/assets/icons/icon-72x72.png": "c457e56089a36952cd67156f9996bc4ce54a5ed9",
+    "/assets/icons/icon-96x96.png": "3914125a4b445bf111c5627875fc190f560daa41",
+    "/assets/img/alumna.jpg": "cf021456d9d19c619550e896316e5cd19120b0b5",
+    "/assets/img/alumno.jpg": "63f733de6105cf5b8b9e1daf8178f20df8c155b9",
+    "/assets/img/escuela.jpg": "a4e2cfc048904f238ffcb9af0313f4e551899a35",
+    "/assets/img/fondo.png": "961d7dbde1053f4f86c9411ee3e25e21c3a350a0",
+    "/assets/img/fondo2.jpg": "d272653ba52301511f969c56982c060fba167792",
+    "/assets/img/logo.png": "0b943d0c5574c2551a47778c5d7f3350ec3f7b5b",
+    "/assets/img/obj.jpg": "f04f1ff3faa47a8d6dd7a1cd2a8ed6736f09b4d3",
+    "/assets/img/usuario.png": "55fe49a3b5838c550ca85d7313ac96063500bb27",
+    "/favicon.ico": "22f6a4a3bcaafafb0254e0f2fa4ceb89e505e8b2",
+    "/fondo2.aaa7841cf69a8b1736d3.jpg": "d272653ba52301511f969c56982c060fba167792",
+    "/index.html": "c396c3bae467290455aa1f0f14dd77b03510ee66",
+    "/logo.5c8b0b31b656115061cd.png": "0b943d0c5574c2551a47778c5d7f3350ec3f7b5b",
+    "/main-es2015.f4b38f8541f6200e9951.js": "3fa57c62ae54e06503e85917bb0159fa4dc33ea0",
+    "/main-es5.f4b38f8541f6200e9951.js": "42cf34101b189de4d1800a829f1509ab0848fb91",
+    "/manifest.webmanifest": "3dd74330ba3cf4f9e7bcebcb1d0752fc94168bad",
+    "/polyfills-es2015.690002c25ea8557bb4b0.js": "72ad4ccc0a3916ae4598199447cdeadd6d380570",
+    "/polyfills-es5.9e286f6d9247438cbb02.js": "8aa26ea87b9958c6bd13b7c257c0e9940438e684",
+    "/runtime-es2015.249d13553f3ad317f3e7.js": "574487dd1d9e05d85a10984cc379f195f3874ee0",
+    "/runtime-es5.249d13553f3ad317f3e7.js": "d013ea660c3f623ef6c39690bc34f389fc06ce36",
+    "/styles.25f7203eb69db14a04a4.css": "9c09260d98d6c654a6137b834d45f6be007de921"
+  },
+  "navigationUrls": [
+    {
+      "positive": true,
+      "regex": "^\\/.*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*\\.[^/]*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*__[^/]*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*__[^/]*\\/.*$"
+    }
+  ]
+}
