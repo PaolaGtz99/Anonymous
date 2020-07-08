@@ -3,11 +3,9 @@ import { SessionService } from './../services/session.service';
 import { FirestoreService } from 'src/app/services/firestore.service';
 import { Component, OnInit } from '@angular/core';
 import { environment } from 'src/environments/environment';
+import * as firebase from 'firebase';
 import { UsuarioMaterialModel } from '../modelos/usuario-materia.model';
 import { MateriaModel } from '../modelos/materia.model';
-import * as firebase from 'firebase';
-import { Variable } from '@angular/compiler/src/render3/r3_ast';
-import { concat } from 'rxjs';
 
 firebase.initializeApp(environment.firebaseConfig);
 
@@ -21,22 +19,26 @@ export class EstudianteComponent implements OnInit {
 
   materias: any = {};
 
-  auxData: string;
-  auxData2: string;  //Cambios de wong
-  cad1: string ="Alumno: ";
-  salto: string= " \n";
-  cad2: string ="Materias asignadas: ";
-  cad3: string ="Promedio: ";
-
-
-  ngxQrcode2: any;
-
   numMaterias = 0;
   materiasusuario: UsuarioMaterialModel[];
 
   user: UsuarioModel;
 
   prom: number;
+
+  auxData: string;
+  auxData2: string;  // Cambios de wong
+  cad1 = 'Alumno: ';
+  salto = ' \n';
+  cad2 = 'Materias asignadas: ';
+  cad3 = 'Promedio: ';
+  cad4 = 'Ubicacion: ';
+  cad5 = 'Lugares: ';
+
+
+  ngxQrcode2: any;
+
+
 
   constructor(
     private sessionService: SessionService,
@@ -45,8 +47,7 @@ export class EstudianteComponent implements OnInit {
 
   fnGetMaterias(count: number = 0) {
     this.user = this.sessionService.fnGetLoged();
-    this.auxData= this.cad1.concat(JSON.stringify(this.user.nombre),this.salto);
-
+    this.auxData = this.cad1.concat(JSON.stringify(this.user.nombre), this.salto);
     if (!this.user.uid && count < 1000){
       setTimeout(() => {
         this.fnGetMaterias(count + 1);
@@ -69,18 +70,13 @@ export class EstudianteComponent implements OnInit {
         }
         this.prom = this.prom + parseFloat('' + aux.nota);
         console.log(this.prom);
-        
         this.materiasusuario.push(aux);
       });
       this.prom = parseFloat((this.prom / (this.numMaterias)).toFixed(2));
-      this.auxData2= this.auxData.concat(this.cad3,JSON.stringify(this.prom),this.salto);
-      this.ngxQrcode2 =this.auxData2;
-       
+      this.auxData2 = this.auxData.concat(this.cad3, JSON.stringify(this.prom), this.salto);
+      this.ngxQrcode2 = this.auxData2;
     });
-   
   }
-  
-
 
   fnGetMateria(id: string){
     this.materias[id] = true;
@@ -90,17 +86,12 @@ export class EstudianteComponent implements OnInit {
         const materia: MateriaModel = doc.data();
         this.materias[materia.uid] = materia.nombre;
         console.log(this.materias);
-        // this.auxData=JSON.stringify(this.materias);
       });
-      this.auxData= this.auxData2.concat(this.cad2,JSON.stringify(this.materias));
-      this.ngxQrcode2 =this.auxData;
-      
+      this.auxData = this.auxData2.concat(this.cad2, JSON.stringify(this.materias));
+      this.ngxQrcode2 = this.auxData;
     });
     console.log(this.auxData);
   }
-  
-  
-
 
   ngOnInit(): void {
     this.fnGetMaterias();

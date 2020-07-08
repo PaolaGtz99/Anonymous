@@ -6,10 +6,15 @@
       "**/.*",
       "**/node_modules/**"
     ],
-    "rewrites": [{
-      "source": "/peli",
-      "function": "app"
-    }
+    "rewrites": [
+      {
+        "source": "/peli",
+        "function": "app"
+      },
+      {
+        "source": "/formulario",
+        "function": "app"
+      }
     ]
   },
   "functions": {
